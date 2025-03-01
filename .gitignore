@@ -1,0 +1,50 @@
+# Node modules
+node_modules/
+
+# TypeScript compiled files
+dist/
+build/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Dependency lock files (optional, keep one based on your package manager)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Jest test coverage
+coverage/
+jest-coverage/
+.nyc_output/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Build tools
+.eslintcache
+.cache/
+.next/
+
+# Docker files
+docker-compose.override.yml

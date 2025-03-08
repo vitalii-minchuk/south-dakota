@@ -12,3 +12,21 @@ export const mockUsers = [
     password: "1234",
   },
 ];
+
+export const mockProducts = [
+  {
+    id: 1,
+    title: "book1",
+    price: 33,
+  },
+  {
+    id: 2,
+    title: "book2",
+    price: 24,
+  },
+  {
+    id: 3,
+    title: "book3",
+    price: 31,
+  },
+];

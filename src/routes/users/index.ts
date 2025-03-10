@@ -7,15 +7,27 @@ const router = Router();
 router.get(
   "/api/users",
   (request: Request<{}, {}, {}, UserQuery>, response: Response) => {
-    const { type, search } = request.query;
-    if (type && search) {
-      const filteredUsers = mockUsers.filter((el) => el[type].includes(search));
+    const { field, search, sort } = request.query;
+    if (field && search) {
+      const filteredUsers = mockUsers.filter((el) =>
+        el[field].includes(search)
+      );
 
       if (!filteredUsers.length) {
         response.status(404).send({ message: "Not found" });
         return;
       }
       response.status(200).send(filteredUsers);
+      return;
+    }
+    if (field && sort) {
+      const sortedUsers = mockUsers.sort((a, b) => {
+        if (sort === "asc") {
+          return a[field].localeCompare(b[field]);
+        }
+        return b[field].localeCompare(a[field]);
+      });
+      response.send(sortedUsers);
       return;
     }
     response.status(200).send(mockUsers);

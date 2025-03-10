@@ -3,7 +3,7 @@ import { mockProducts } from "../../mock-data";
 
 const router = Router();
 
-router.get("/products", (req, res) => {
+router.get("/api/products", (req, res) => {
   res.send(mockProducts);
 });
 

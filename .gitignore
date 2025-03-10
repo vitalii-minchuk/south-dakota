@@ -48,3 +48,5 @@ jest-coverage/
 
 # Docker files
 docker-compose.override.yml
+
+.qodo

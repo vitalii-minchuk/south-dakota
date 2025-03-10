@@ -63,16 +63,14 @@ router.post(
   (request: Request<{}, {}, NewUser, {}>, response: Response) => {
     const newUser = request.body;
     let newId = 1;
-    for (let index = 0; index < mockUsers.length; index++) {
-      if (!mockUsers.length) {
+    const sortedMockUsers = mockUsers.sort((a, b) => a.id - b.id);
+
+    for (let i = 0; i < sortedMockUsers.length; i++) {
+      if (!sortedMockUsers.length) {
         break;
       }
-      const existingId = mockUsers[index].id + 1;
-      if (
-        mockUsers
-          .sort((a, b) => a.id - b.id)
-          .every((el) => el.id !== existingId)
-      ) {
+      const existingId = sortedMockUsers[i].id + 1;
+      if (sortedMockUsers.every((el) => el.id !== existingId)) {
         newId = existingId;
         break;
       }
@@ -87,4 +85,85 @@ router.post(
     response.status(201).send({ ...newUser, id: newId });
   }
 );
+
+router.put(
+  "/api/users/:id",
+  (request: Request<{ id: string }, {}, NewUser, {}>, response: Response) => {
+    const parsedId = Number(request.params.id);
+    const updatedUser = request.body;
+
+    if (isNaN(parsedId)) {
+      response.status(400).send({ message: "Bad request" });
+      return;
+    }
+
+    const index = mockUsers.findIndex((el) => el.id === parsedId);
+
+    if (index === -1) {
+      response.status(404).send({ message: "Not found" });
+      return;
+    }
+
+    if (!updatedUser.email || !updatedUser.name || !updatedUser.password) {
+      response.status(400).send({ message: "Bad request" });
+      return;
+    }
+
+    mockUsers[index] = { ...updatedUser, id: parsedId };
+    response.status(200).send({ ...updatedUser, id: parsedId });
+  }
+);
+
+router.patch(
+  "/api/users/:id",
+  (
+    request: Request<{ id: string }, {}, Partial<NewUser>, {}>,
+    response: Response
+  ) => {
+    const parsedId = Number(request.params.id);
+    const updatedUser = request.body;
+
+    if (isNaN(parsedId)) {
+      response.status(400).send({ message: "Bad request" });
+      return;
+    }
+
+    const index = mockUsers.findIndex((el) => el.id === parsedId);
+
+    if (index === -1) {
+      response.status(404).send({ message: "Not found" });
+      return;
+    }
+
+    mockUsers[index] = {
+      ...mockUsers[index],
+      ...updatedUser,
+      id: parsedId,
+    };
+    response.status(200).send({ ...updatedUser, id: parsedId });
+  }
+);
+
+router.delete(
+  "/api/users/:id",
+  (request: Request<{ id: string }, {}, {}, {}>, response: Response) => {
+    const parsedId = Number(request.params.id);
+
+    if (isNaN(parsedId)) {
+      response.status(400).send({ message: "Bad request" });
+      return;
+    }
+
+    const index = mockUsers.findIndex((el) => el.id === parsedId);
+
+    if (index === -1) {
+      response.status(404).send({ message: "Not found" });
+      return;
+    }
+
+    mockUsers.splice(index, 1);
+    response.sendStatus(204);
+  }
+);
+
 export default router;

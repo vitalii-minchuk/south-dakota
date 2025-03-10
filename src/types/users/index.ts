@@ -9,3 +9,9 @@ export interface UserQuery {
   search: string;
   sort: "asc" | "desc";
 }
+
+export interface NewUser {
+  name: string;
+  email: string;
+  password: string;
+}

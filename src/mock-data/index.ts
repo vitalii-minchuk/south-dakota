@@ -41,4 +41,9 @@ export const mockProducts = [
     title: "book3",
     price: 31,
   },
+  {
+    id: 4,
+    title: "book4",
+    price: 31,
+  },
 ];
